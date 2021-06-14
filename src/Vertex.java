@@ -2,6 +2,7 @@ public class Vertex {
     private int value;
     private boolean known;
     private double distance;
+    private int previousVertexValue;
 
    /* Vertex(int value, boolean known, double distance) {
         this.value = value;
@@ -13,6 +14,7 @@ public class Vertex {
         this.value = value;
         this.known = false;
         this.distance = 0;
+        this.previousVertexValue = -1;
     }
 
     boolean isKnown() {
@@ -37,5 +39,13 @@ public class Vertex {
 
     public void setValue(int value) {
         this.value = value;
+    }
+
+    public int getPreviousVertexValue() {
+        return previousVertexValue;
+    }
+
+    public void setPreviousVertexValue(int previousVertexValue) {
+        this.previousVertexValue = previousVertexValue;
     }
 }

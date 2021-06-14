@@ -15,15 +15,14 @@ public class Main {
         weightedGraph.insertEdge(4, 5, 2);
         weightedGraph.insertEdge(5, 3, 6);
 
-        System.out.println("The number of edges are " + weightedGraph.getEdgeCount());
-        System.out.println("The weight of the edge between vertex 1 and vertex 2 " + weightedGraph.getEdgeWeight(1, 2));
-        System.out.println("The Degree of vertex 4 is " + weightedGraph.getVertexDegree(4));
+        System.out.println("The number of edges is " + weightedGraph.getEdgeCount());
+        System.out.println("The number of vertices is " + weightedGraph.getVertexCount());
 
-        System.out.println("\n********* Result of evaluating the graph for shortest path, taking the vertex with value 1 as starting vertex ***********");
-        System.out.println("Distance between vertex 1 and vertex 3 is " + weightedGraph.getShortestDistance(1, 3));
-        System.out.println("Distance between vertex 1 and vertex 2 is " + weightedGraph.getShortestDistance(1, 2));
-        System.out.println("Distance between vertex 1 and vertex 4 is " + weightedGraph.getShortestDistance(1, 4));
-        System.out.println("Distance between vertex 1 and vertex 5 is " + weightedGraph.getShortestDistance(1, 5));
+        weightedGraph.shortestPathWeight(1);
+        System.out.println("\nVertices\tDistance from vertex "+1+"\tPrevious Vertex");
+        for (Vertex vertex:weightedGraph.getVertices()) {
+            System.out.print("\t"+vertex.getValue()+"\t\t\t\t  "+vertex.getDistance()+"\t\t\t\t\t"+vertex.getPreviousVertexValue()+"\n");
+        }
 
 
     }

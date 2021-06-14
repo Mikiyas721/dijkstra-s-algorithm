@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 class WeightedGraph {
@@ -18,6 +19,14 @@ class WeightedGraph {
             vertices = new Vertex[numberOfVertex];
         }
         edgeList = new ArrayList<>();
+    }
+
+    int getVertexCount() {
+        return vertices.length;
+    }
+
+    Vertex[] getVertices() {
+        return vertices;
     }
 
     int getVertexDegree(int vertexValue) {
@@ -77,7 +86,8 @@ class WeightedGraph {
         if (!vertexExist(firstValue) || !vertexExist(secondValue)) throw new IllegalArgumentException();
         else if (vertexExist(firstValue) && firstValue == secondValue) return 0;
         else {
-            return shortestPathWeight(firstValue, secondValue);
+            shortestPathWeight(firstValue);
+            return getVertex(secondValue).getDistance();
         }
     }
 
@@ -93,25 +103,27 @@ class WeightedGraph {
         return false;
     }
 
-    private double shortestPathWeight(int firstValue, int secondValue) {
+    public void shortestPathWeight(int value) {
         setUpAll();
-        getVertex(firstValue).setDistance(0);
-        Vertex currentVertex = getVertex(firstValue);
+        getVertex(value).setDistance(0);
+        getVertex(value).setPreviousVertexValue(value);
+        Vertex currentVertex = getVertex(value);
         while (hasUnknown()) {
             if (currentVertex == null) currentVertex = getOneUnknownVertex();
             ArrayList<Edge> edges = getEdges(currentVertex.getValue());
             currentVertex.setKnown(true);
             double nextPathDistance = Double.MAX_VALUE;
             for (Edge edge : edges) {
-                if (edge.getSecondVertex().getDistance() > currentVertex.getDistance() + edge.getWeight())
+                if (edge.getSecondVertex().getDistance() > currentVertex.getDistance() + edge.getWeight()) {
                     edge.getSecondVertex().setDistance(currentVertex.getDistance() + edge.getWeight());
+                    edge.getSecondVertex().setPreviousVertexValue(currentVertex.getValue());
+                }
                 if (edge.getWeight() < nextPathDistance) {
                     nextPathDistance = edge.getWeight();
                 }
             }
             currentVertex = getSecondVertex(currentVertex, nextPathDistance);
         }
-        return getVertex(secondValue).getDistance();
     }
 
     private void setUpAll() {
@@ -130,7 +142,7 @@ class WeightedGraph {
         return false;
     }
 
-    private Vertex getVertex(int vertexValue) {
+    public Vertex getVertex(int vertexValue) {
         for (Vertex vertex : vertices) {
             if (vertex.getValue() == vertexValue) return vertex;
         }
